@@ -1,58 +1,41 @@
 
 
 <!doctype html>
-<meta charset="utf-8">
+<html>
+  
+  <head>
+    <meta charset="utf-8">
 
-<script src="d3.js"></script>
-<script src="d3plus.js"></script>
-<div id="viz"></div>
-
-<script>
+    <script src="d3.js"></script>
+    <script src="d3plus.js"></script>
+    <script src = "js/effects.js"></script>
 
 
+    <link rel = "stylesheet" type="text/css" href="css/external.css">
+  </head>
 
-//reference: http://d3plus.org/examples/advanced/9956853/
+  <body>
+  
+    <div id="viz">
+      <iframe src="graphv.html" width="100%" height="720px" id="viziframe"></iframe>
+      
+    </div>
 
-  var f = [];
-  var id = [];
-  var sd = [];
-  var edges = [];
-  var alen = 0;
-  d3.csv("gr2.csv",function(data){  
-    console.log(data.length);
-    alen = data.length;
-    var res = [];
-    
-    for(var i = 0 , n = data.length;i<n;i++){
-        if(data[i]["source"] == data[i]["destination"])continue; 
-        var tmp = {} 
-        tmp["source"] = data[i]["source"];
-        tmp["target"] = data[i]["destination"];
-        console.log(tmp);
-        edges.push(tmp);
-        for(var m in data[i]){
-            if (!(data[i][m] in f)){
-                f[data[i][m]]=0;
-            }
-            f[data[i][m]]+=1;
 
-        }
-    }
-    for(var m in f){
-        var tmp ={};
-        tmp["name"]=m;
-        tmp["size"]=f[m];
-        sd.push(tmp);
-    }   
-    var visualization = d3plus.viz()
-        .container("#viz")
-        .type("network")
-        .data(sd)
-        .edges(edges)
-        .edges({"arrows": false})
-        .size("size")
-        .id("name")
-        .draw()
-  })
 
-</script>
+    <div id="options">
+      <table>
+
+        <tr>
+          <td><input type="button" value="reset" name = "reset" class="buttons" onclick="reloadViz()">
+          </td>
+        </tr>
+        <tr>
+          <td><input type="text" value="" name = "searchText" >
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+
+</html>
