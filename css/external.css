@@ -11,6 +11,9 @@ input.buttons{
     cursor: pointer;
     border-radius: 10%;
 }
+input:buttons:hover{
+	opacity:0.5;
+}
 
 #options{
 	float: right;
