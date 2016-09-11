@@ -22,7 +22,6 @@
         names =[]
         for(var i = 0 ; i <namesData.length;i++){
             var ci = namesData[i]['source'];
-            //console.log(typeof(ci));
             names[ci]=namesData[i]['destination'];
         }
 
@@ -38,7 +37,6 @@
             if(!(data[i]["destination"] in names)){
                 tmp["target"]= data[i]["destination"];      
             }
-            //console.log(tmp);
             edges.push(tmp);
             for(var m in data[i]){
                 if (!(data[i][m] in f)){
@@ -47,12 +45,7 @@
                 f[data[i][m]]+=1;
             }
         }
-        console.log(namesData);
-        for(var i = 0 ;i<namesData.length;i++){
-            console.log(namesData[i]);
-        }
-
-        
+      
         for(var m in f){
             var tmp ={};
             tmp["name"]=m;
@@ -62,8 +55,6 @@
             sd.push(tmp);
         }   
         
-        
-
         var visualization = d3plus.viz()
             .container("#viz")
             .type("network")
