@@ -1,0 +1,82 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<script src="d3.js"></script>
+<script src="d3plus.js"></script>
+<div id="viz"></div>
+
+<script>
+//reference: http://d3plus.org/examples/advanced/9956853/
+  var f = [];
+  var id = [];
+  var sd = [];
+  var edges = [];
+  var alen = 0;
+  d3.csv("gr2.csv",function(data){  
+    console.log(data.length);
+    alen = data.length;
+    console.log("alen"+alen);
+
+    d3.csv("n3.csv",function(namesData){
+        for(var i = 0 , n = data.length;i<n;i++){
+            if(data[i]["source"] == data[i]["destination"])continue; 
+            var tmp = {} 
+            tmp["source"] = data[i]["source"];
+            tmp["target"] = data[i]["destination"];
+            tmp["weight"]=1.0;
+            //console.log(tmp);
+            edges.push(tmp);
+            for(var m in data[i]){
+                if (!(data[i][m] in f)){
+                    f[data[i][m]]=0;
+                }
+                f[data[i][m]]+=1;
+            }
+        }
+        console.log(namesData);
+        for(var i = 0 ;i<namesData.length;i++){
+            console.log(namesData[i]);
+        }
+
+        names =[]
+        for(var i = 0 ; i <namesData.length;i++){
+            var ci = namesData[i]['source'];
+            //console.log(typeof(ci));
+            names[ci]=namesData[i]['destination'];
+        }
+
+        for(var m in f){
+            var tmp ={};
+            tmp["id"]=m;
+            console.log(names[m]);
+            tmp["size"]=f[m];
+            tmp["name"]=names[m];
+            
+            sd.push(tmp);
+        }   
+        
+        
+
+        var visualization = d3plus.viz()
+            .container("#viz")
+            .type("network")
+            //.type("rings") //hangs
+            //.shape("donut") //hangs
+            .data(sd)
+            .edges(edges)
+            //.edges({"arrows": true})  //looks ugly
+            .edges({"label": "weight"}) //no effect on network
+            .size("size")
+            //.edges({"arrows":true});
+            .id("id")
+            //.focus("11")
+            .font("serif")
+            .text("name")
+            .title("Bangladesh Laws Network visualization")
+            //.labels({"align":"right", "valign": "center"})
+            .draw()
+
+    })
+
+  })
+</script>
