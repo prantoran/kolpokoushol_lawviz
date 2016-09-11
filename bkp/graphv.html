@@ -18,26 +18,11 @@
     console.log("alen"+alen);
 
     d3.csv("n3.csv",function(namesData){
-        
-        names =[]
-        for(var i = 0 ; i <namesData.length;i++){
-            var ci = namesData[i]['source'];
-            //console.log(typeof(ci));
-            names[ci]=namesData[i]['destination'];
-        }
-
         for(var i = 0 , n = data.length;i<n;i++){
             if(data[i]["source"] == data[i]["destination"])continue; 
             var tmp = {} 
-            tmp["source"] = names[data[i]["source"]];
-            tmp["target"] = names[data[i]["destination"]];
-
-            if(!(data[i]["source"] in names)){
-                tmp["source"] = data[i]["source"];
-            }
-            if(!(data[i]["destination"] in names)){
-                tmp["target"]= data[i]["destination"];      
-            }
+            tmp["source"] = data[i]["source"];
+            tmp["target"] = data[i]["destination"];
             //console.log(tmp);
             edges.push(tmp);
             for(var m in data[i]){
@@ -52,12 +37,19 @@
             console.log(namesData[i]);
         }
 
-        
+        names =[]
+        for(var i = 0 ; i <namesData.length;i++){
+            var ci = namesData[i]['source'];
+            //console.log(typeof(ci));
+            names[ci]=namesData[i]['destination'];
+        }
+
         for(var m in f){
             var tmp ={};
-            tmp["name"]=m;
+            tmp["id"]=m;
+            console.log(names[m]);
             tmp["size"]=f[m];
-            
+            tmp["name"]=names[m];
             
             sd.push(tmp);
         }   
@@ -71,7 +63,7 @@
             .edges(edges)
             .edges({"arrows": false})
             .size("size")
-            .id("name")
+            .id("id")
             .draw()
 
     })
